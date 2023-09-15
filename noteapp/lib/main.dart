@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
+        primaryColor: const Color(0xff63ffda),
         fontFamily: 'Poppins',
       ),
       initialRoute: '/HomePage',
