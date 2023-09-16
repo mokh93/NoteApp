@@ -1,85 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:noteapp/widgets/custome_appbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:noteapp/cubit/cubit/add_note_cubit_cubit.dart';
 
-import 'custom_button.dart';
-import 'custom_textfield.dart';
+import 'add_note_form.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
   const AddNoteBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: AddFormField(),
-      ),
-    );
-  }
-}
-
-class AddFormField extends StatefulWidget {
-  const AddFormField({
-    super.key,
-  });
-
-  @override
-  State<AddFormField> createState() => _AddFormFieldState();
-}
-
-class _AddFormFieldState extends State<AddFormField> {
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  final GlobalKey<FormState> formKey = GlobalKey();
-
-  String? title, content;
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      autovalidateMode: autovalidateMode,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // const CustomAppBar(
-          //   title: 'Add Note',
-          //   icon: Icons.done,
-          // ),
-          const SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            onSaved: (data) {
-              title = data;
-            },
-            hintText: 'Title',
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            onSaved: (data) {
-              content = data;
-            },
-            hintText: 'Content',
-            maxLines: 5,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.070,
-          ),
-          CustomButton(
-            text: 'Add',
-            onTap: () {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-              } else {
-                setState(() {
-                  autovalidateMode = AutovalidateMode.always;
-                });
-              }
-            },
-          ),
-        ],
+        physics: const BouncingScrollPhysics(),
+        child: BlocConsumer<AddNoteCubitCubit, AddNoteCubitState>(
+          listener: (context, state) {
+            if (state is AddNoteCubitSuccess) {
+              Navigator.pop(context);
+            } else if (state is AddNoteCubitFiler) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text('error : ${state.errorMessage}'),
+                  ),
+                );
+            }
+          },
+          builder: (context, state) {
+            return ModalProgressHUD(
+              inAsyncCall: state is AddNoteCubitLoading ? true : false,
+              child: const AddFormField(),
+            );
+          },
+        ),
       ),
     );
   }
