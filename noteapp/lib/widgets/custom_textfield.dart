@@ -6,11 +6,13 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.onChanged,
     this.maxLines = 1,
+    this.onSaved,
   });
 
   final String hintText;
   final int maxLines;
   Function(String)? onChanged;
+  final void Function(String?)? onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,13 @@ class CustomTextField extends StatelessWidget {
       maxLines: maxLines,
       cursorColor: Theme.of(context).primaryColor,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value?.isEmpty ?? true) {
           return 'This Field is required';
+        } else {
+          null;
         }
       },
+      onSaved: onSaved,
       onChanged: onChanged,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
@@ -29,6 +34,8 @@ class CustomTextField extends StatelessWidget {
         hintText: hintText,
         enabledBorder: outlineinputborder(context, Colors.white),
         focusedBorder: outlineinputborder(context),
+        errorBorder: outlineinputborder(context, Colors.red),
+        focusedErrorBorder: outlineinputborder(context, Colors.red),
       ),
     );
   }
