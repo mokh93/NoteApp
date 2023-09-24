@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:noteapp/Models/note_model.dart';
 
 import '../Pages/edit_note_page.dart';
-import 'card_listtile.dart';
 
 class NoteItem extends StatelessWidget {
-  const NoteItem({super.key});
+  const NoteItem({super.key, required this.note});
+
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class NoteItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
-          color: const Color(0xffffcd7a),
+          color: Color(note.color),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
@@ -28,11 +31,38 @@ class NoteItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const CardListTile(),
+              ListTile(
+                title: Text(
+                  note.title,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: Text(
+                    note.content,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(.4),
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                    size: 35,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: 18),
                 child: Text(
-                  '15 ,sept , 2023',
+                  note.date,
                   style: TextStyle(
                     color: Colors.black.withOpacity(.4),
                     fontSize: 18,
