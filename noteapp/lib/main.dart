@@ -7,6 +7,7 @@ import 'package:noteapp/cubit/cubit/add_note_cubit_cubit.dart';
 import 'Models/note_model.dart';
 import 'Pages/home_page.dart';
 import 'constants.dart';
+import 'cubit/note_cubit/cubit/note_cubit_cubit.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -22,17 +23,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: const Color(0xff63ffda),
-        fontFamily: 'Poppins',
+    return BlocProvider(
+      create: (context) => NoteCubitCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: const Color(0xff63ffda),
+          fontFamily: 'Poppins',
+        ),
+        initialRoute: '/HomePage',
+        routes: {
+          '/HomePage': (context) => const HomePage(),
+        },
       ),
-      initialRoute: '/HomePage',
-      routes: {
-        '/HomePage': (context) => const HomePage(),
-      },
     );
   }
 }
