@@ -4,6 +4,7 @@ import 'package:noteapp/Models/note_model.dart';
 import 'package:noteapp/cubit/cubit/add_note_cubit_cubit.dart';
 import 'package:intl/intl.dart';
 import 'package:noteapp/cubit/note_cubit/cubit/note_cubit_cubit.dart';
+import 'package:noteapp/widgets/colors_list_view.dart';
 
 import 'custom_button.dart';
 import 'custom_textfield.dart';
@@ -54,7 +55,11 @@ class _AddFormFieldState extends State<AddFormField> {
             maxLines: 5,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.070,
+            height: MediaQuery.of(context).size.height * 0.020,
+          ),
+          const ColorsListView(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.020,
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
