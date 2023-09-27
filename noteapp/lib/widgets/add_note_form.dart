@@ -31,10 +31,6 @@ class _AddFormFieldState extends State<AddFormField> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // const CustomAppBar(
-          //   title: 'Add Note',
-          //   icon: Icons.done,
-          // ),
           const SizedBox(
             height: 20,
           ),
